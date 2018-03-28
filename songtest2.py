@@ -165,7 +165,7 @@ class MyMusicPlayer:
          def GUIStuffs(self):
 
                   self.window=Tk()
-                  self.window.geometry("290x70")
+                  self.window.geometry("350x70")
                   self.window.title("Song Classifier")
                   self.window.resizable(False,False)
                   
