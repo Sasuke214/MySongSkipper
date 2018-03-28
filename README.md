@@ -15,7 +15,9 @@ extract and run the command: sudo ./install.sh
 3.Then you can listen the song
 
  Like    -> Listen Completely and it will go to listened folder
+ 
  Dislike -> Press Next Button before a minute and it will go to boring folder
- Like but don't wanna listen now -> Later and it will go to listening folder, if u press next after a minute then also it will go to listening folder
+ 
+ Like but don't wanna listen now -> Later and it will go to listening folder, if u press next after a minute then also it will go  to listening folder
 
 # You can seek to a particular position as well, it doesn't matter the time to categorize song.
