@@ -161,11 +161,11 @@ class MyMusicPlayer:
                   menu.add_cascade(label="Help",menu=aboutMenu)
                   aboutMenu.add_command(label="About")
 
-                  pics=PhotoImage(file="songimage.png")
+                  #pics=PhotoImage(file="songimage.png")
                   
 
-                  lbl=Label(self.frame0,image=pics)
-                  lbl.pack()
+                  ##lbl=Label(self.frame0,image=pics)
+                  #lbl.pack()
                   
                   #nextmenu
                   self.newmenu=Menu(self.frame1)
