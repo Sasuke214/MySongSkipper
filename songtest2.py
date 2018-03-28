@@ -13,6 +13,7 @@ import os
 import shutil
 from tkinter import ttk
 
+import eyed3
 
 
 sourceLocation=""
@@ -35,11 +36,13 @@ skiptime=0
 
 class MyMusicPlayer:
          def __init__(self):
+                  eyed3.log.setLevel("ERROR")
+                  
                   self.Clicked=False
                   threading.Thread(target=self.GUIStuffs).start()
                   self.currsong=''
                   self.player=pyglet.media.Player()
-                  self.player.eos_action=pyglet.media.Player.EOS_NEXT
+                  #self.player.eos_action=pyglet.media.Player.EOS_NEXT
                   self.player.push_handlers(on_eos=self.SongFinished)
                   
                   
@@ -96,6 +99,7 @@ class MyMusicPlayer:
                            tempList=glob.glob('*.mp3')
                            songList.extend(tempList)
                            totalSongs=len(songList)
+                           
                            if totalSongs>=1:
                                     self.FirstWindow()
                            else:    
@@ -104,7 +108,30 @@ class MyMusicPlayer:
                           tkinter.messagebox.showerror("Error","Please Assign the path") 
                           
                   
-                          
+         def RemoveAlbumArt(self):
+              #progress bar for art remover
+              self.progressbar["value"]=0
+              self.progressbar["maximum"]=100
+              incfact=1/((len(songList))/100)
+              incval=0
+              
+              #remove the thumbnails from songs
+              for i in range(0,totalSongs):
+                  try:
+                      #load the audio file
+                      audiofile=eyed3.load(songList[i])
+                      #remove the thumbnail art
+                      audiofile.tag.images.remove(u'')
+                      #save the file
+                      audiofile.tag.save()
+                  except:
+                      continue
+                    
+                  incval+=incfact
+                  self.LoadingPercent.set((str(int(incval))+'%'))
+                  self.progressbar["value"]=incval
+                  
+              self.PlayFirst()
 
 
                   
@@ -112,7 +139,9 @@ class MyMusicPlayer:
                   self.frame0.destroy()
                   #self.frame1.pack(expand=YES,fill=BOTH)
                   self.loadingFrame.pack()
-                  self.PlayFirst()
+                  
+                  threading.Thread(target=self.RemoveAlbumArt).start()
+                  #self.PlayFirst()
 
 
          def SongSeeker(self,evnt):
@@ -164,7 +193,7 @@ class MyMusicPlayer:
                   #pics=PhotoImage(file="songimage.png")
                   
 
-                  ##lbl=Label(self.frame0,image=pics)
+                  #lbl=Label(self.frame0,image=pics)
                   #lbl.pack()
                   
                   #nextmenu
@@ -201,12 +230,6 @@ class MyMusicPlayer:
                   pyglet.app.exit()
 
          def GetAllFiles(self):
-                  global songList,totalSongs
-                  
-                  songList=glob.glob('*.wav')
-                  tempList=glob.glob('*.mp3')
-                  songList.extend(tempList)
-                  totalSongs=len(songList)
                   threading.Thread(target=self.QueueAllFiles).start()
 
                   
