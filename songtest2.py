@@ -38,6 +38,9 @@ class MyMusicPlayer:
          def __init__(self):
                   eyed3.log.setLevel("ERROR")
                   
+                  #to solve the issue (in linux) ie. pyglet.media.drivers.pulse.interface.PulseAudioException: PulseAudioException: [15] Bad state
+                  pyglet.media.sources.loader._have_ffmpeg=False
+                  
                   self.Clicked=False
                   threading.Thread(target=self.GUIStuffs).start()
                   self.currsong=''
